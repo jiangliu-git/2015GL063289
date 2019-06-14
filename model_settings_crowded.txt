@@ -1,0 +1,32 @@
+;;;;;;;; Values
+r_dfb = 1 RE  ;; radius of DFB's equatorial cross section
+space_dfb = 0.5 RE ;; space between DFBs
+MLT_seperate = -1 (hr, this equal to 23 MLT) ;; the seperator of dawn/dusk sector of the magnetotail
+
+;;;;;;;; Current values
+if MLT<MLT_seperate then I_out = 0.15MA, I_in = 0.05MA
+if MLT>MLT_seperate then I_out = 0.05MA, I_in = 0.15MA
+
+;;;;;;;; Locations
+;; There are four lines of DFBs (Lines 1-4).
+
+;; Xn is the X location for Line n.
+X1 = -8 RE
+for n = 2:4
+  Xn = X1-(n-1)*(r_dfb+space_dfb)
+endfor
+
+;; Y locations for the for lines n=1-4
+Y_seperate_n = Xn*tan(MLT_seperate*15deg) ;; Y of the seperator of dawn/dusk sector
+;; for each line, DFB centers:
+Y_centers_dusk_n = Y_seperate_n+(2k-1)*(r_dfb+0.5*space_dfb)
+Y_centers_dawn_n = Y_seperate_n-(2k-1)*(r_dfb-0.5*space_dfb)
+Y_centers_all_n = [Y_centers_dusk_n, Y_centers_dawn_n]
+;; Line 1 and Line 4: two bundles
+k = 1
+;; Line 2 and Line 3: four bundles
+k = 1:2
+
+;; FAC locations for each DFB:
+Y_in = Y_center-0.5*r_dfb
+Y_out = Y_center+0.5*r_dfb

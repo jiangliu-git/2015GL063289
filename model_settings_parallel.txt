@@ -1,0 +1,28 @@
+;;;;;;;; Values
+n_dfb_each_side = 7 (total 14) ;; number of DFBs
+r_dfb = 1 RE  ;; radius of DFB's equatorial cross section
+space_dfb = 0  ;; space between DFBs
+MLT_seperate = -1 (hr, this equal to 23 MLT) ;; the seperator of dawn/dusk sector of the magnetotail
+
+;;;;;;;; Current values
+if MLT<MLT_seperate then I_out = 1.5MA, I_in = 0.5MA
+if MLT>MLT_seperate then I_out = 0.5MA, I_in = 1.5MA
+
+;;;;;;;; Locations
+X_in = X_out = -10 RE (for all 2*n_dfb_each_side DFBs) ;; X of the currents out of Earth
+Y_seperate = X_in*tan(MLT_seperate*15deg) ;; Y of the seperator of dawn/dusk sector
+
+;;; Y values: for n=1:n_dfb_each_side
+;; DFB centers:
+Y_centers_dusk = Y_seperate+(2n-1)*(r_dfb+0.5*space_dfb)
+Y_centers_dawn = Y_seperate-(2n-1)*(r_dfb-0.5*space_dfb)
+Y_centers_all = [Y_centers_dusk, Y_centers_dawn]
+;; FAC locations:
+Y_in = Y_centers_all-0.5*r_dfb
+Y_out = Y_centers_all+0.5*r_dfb
+
+
+;;;;;; Output
+At mid-latitude and GEO.
+
+ 
